@@ -11,17 +11,17 @@ public class Clock extends Thread {
 
     Clock(int cycleDuration,int numberOfCycles){
         if(cycleDuration <= 0 || numberOfCycles <=0)
-            throw new IllegalArgumentException("error: the clock cycle duration or number of cycles must not be zero.");
+            throw new IllegalArgumentException("error: the clock cycle duration or number of cycles must be greater than zero");
         this.cycleDuration = cycleDuration;
         this.numberOfCycles = numberOfCycles;
     }
 
-    private void incrementCycle(){
-        cycle.incrementAndGet();
-    }
-
     public AtomicInteger getCurrentCycle(){
         return cycle;
+    }
+
+    public int getNumberOfCycles(){
+        return numberOfCycles;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Clock extends Thread {
             while(cycle.get() < numberOfCycles){
                 System.out.println("**********Starting cycle "+ cycle.get()+"**********");
                 Thread.sleep(cycleDuration* 100L);
-                incrementCycle();
+                cycle.incrementAndGet();
                 System.out.println("**********Ending the cycle**********");
             }
         } catch (InterruptedException e) {
