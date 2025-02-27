@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Schedular {
-    Queue<Task> allTasks = new PriorityQueue<>();
+    Queue<Task> readyTasks;
+
+    Schedular(){}
 }
