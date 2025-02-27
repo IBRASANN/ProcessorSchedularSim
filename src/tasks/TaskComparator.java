@@ -1,3 +1,5 @@
+package tasks;
+
 import java.util.Comparator;
 
 public class TaskComparator implements Comparator<Task> {
@@ -12,6 +14,6 @@ public class TaskComparator implements Comparator<Task> {
             return Integer.compare(t1.creationTime, t2.creationTime);
         }
         // If creation times are the same, compare by duration (longer first)
-        return Integer.compare(t2.duration, t1.duration);
+        return Integer.compare(t2.remainingDuration, t1.remainingDuration);
     }
 }
