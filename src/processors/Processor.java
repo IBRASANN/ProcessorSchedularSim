@@ -4,12 +4,12 @@ import clocks.Clock;
 import tasks.Task;
 
 public class Processor extends Thread{
-    static int idCounter = 0;
-    int id;
+    static int idCounter = 1;
+    String id;
     volatile Task task = null;
 
     public Processor(){
-        id = idCounter++;
+        id = "P"+idCounter++;
     }
 
 
@@ -22,13 +22,29 @@ public class Processor extends Thread{
         return task == null;
     }
 
+    public void passTime(int n){
+        for(int i=0;i<n;i++){
+            //do nothing
+        }
+    }
+
     @Override
     public void run(){
-
-
+        int lastCycle;
+        boolean wasIdle;
         while(true){
-            int lastCycle = Clock.getCurrentCycle().get();
+            lastCycle = Clock.getCurrentCycle().get();
+            wasIdle = isIdle();
             if(!isIdle()){
+                task.perform(this);
+                if(task.getRemainingDuration() <= 0)task = null;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if(wasIdle && !isIdle()){
                 task.perform(this);
                 if(task.getRemainingDuration() <= 0)task = null;
             }
@@ -38,7 +54,7 @@ public class Processor extends Thread{
 
     @Override
     public String toString(){
-        return "{id: p"+id+", isIdle: "+isIdle()+"}";
+        return "{id: "+id+", isIdle: "+isIdle()+"}";
     }
 
 }

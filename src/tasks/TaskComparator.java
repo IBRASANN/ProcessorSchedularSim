@@ -9,11 +9,14 @@ public class TaskComparator implements Comparator<Task> {
         if (t1.priority != t2.priority) {
             return Integer.compare(t2.priority, t1.priority);
         }
-        // If priorities are the same, compare by creation time (earlier first)
-        if (t1.creationTime != t2.creationTime) {
-            return Integer.compare(t1.creationTime, t2.creationTime);
-        }
+
         // If creation times are the same, compare by duration (longer first)
-        return Integer.compare(t2.remainingDuration, t1.remainingDuration);
+        if (t2.remainingDuration != t1.remainingDuration) {
+            return Integer.compare(t2.remainingDuration, t1.remainingDuration);
+        }
+
+        // If priorities are the same, compare by creation time (earlier first)
+        return Integer.compare(t1.creationTime, t2.creationTime);
+
     }
 }

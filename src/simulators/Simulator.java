@@ -39,7 +39,7 @@ public class Simulator {
     public void readTasksFromFile() throws FileNotFoundException {
         List<List<String>> tasks = new ArrayList<>();
         int numOfTasks = 0;
-        Scanner scanner = new Scanner(new File("src/example1.txt"));
+        Scanner scanner = new Scanner(new File("src/example2.txt"));
         if(scanner.hasNextLine())numOfTasks = Integer.parseInt(scanner.nextLine());
         while (scanner.hasNextLine()) {
             tasks.add(List.of(scanner.nextLine().split(" ")));
@@ -76,7 +76,9 @@ public class Simulator {
         }
     }
 
-    public void giveTasksToIdleProcessors(){
+    public synchronized void giveTasksToIdleProcessors(){
+
+
         for(Processor processor : processors){
             if(processor.isIdle() && schedular.isTasksReady())
                 schedular.giveTaskToProcessor(processor);
@@ -89,23 +91,24 @@ public class Simulator {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        updateCreatedTasks();
         initProcessors();
-        giveTasksToIdleProcessors();
-        System.out.println("**********cycle number " + Clock.getCurrentCycle()+"**********");
         for(Processor processor : processors){
             processor.start();
         }
-        for(int cycle = 1; cycle<numberOfSimulationCycles; cycle++){
-            updateCreatedTasks();
-            giveTasksToIdleProcessors();
+        while(Clock.getCurrentCycle().get() < numberOfSimulationCycles){
             try {
                 clock.nextCycle();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            schedular.printReady();
             updateCreatedTasks();
             giveTasksToIdleProcessors();
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
