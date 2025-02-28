@@ -6,16 +6,21 @@ import tasks.TaskComparator;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class Schedular {
     Queue<Task> readyTasks;
 
-    Schedular(){
-        readyTasks = new PriorityQueue<>(new TaskComparator());
+    public Schedular(){
+        readyTasks = new PriorityBlockingQueue<>(11,new TaskComparator());
     }
 
     public synchronized void addTaskToQueue(Task task){
         readyTasks.add(task);
+    }
+
+    public boolean isTasksReady(){
+        return !readyTasks.isEmpty();
     }
 
     public synchronized void giveTaskToProcessor(Processor processor){
@@ -23,7 +28,7 @@ public class Schedular {
             System.out.println("processor is not idle, can't give task to it :(");
             return;
         }
-        if(readyTasks.isEmpty()){
+        if(!isTasksReady()){
             System.out.println("no ready tasks available :(");
             return;
         }

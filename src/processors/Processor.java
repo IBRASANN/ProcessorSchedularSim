@@ -6,9 +6,9 @@ import tasks.Task;
 public class Processor extends Thread{
     static int idCounter = 0;
     int id;
-    Task task = null;
+    volatile Task task = null;
 
-    Processor(){
+    public Processor(){
         id = idCounter++;
     }
 
@@ -24,14 +24,15 @@ public class Processor extends Thread{
 
     @Override
     public void run(){
-        int lastCycle = Clock.getCurrentCycle().get();
-        Clock.waitForNextCycle(lastCycle);
+
 
         while(true){
+            int lastCycle = Clock.getCurrentCycle().get();
             if(!isIdle()){
-                task.perform();
+                task.perform(this);
                 if(task.getRemainingDuration() <= 0)task = null;
             }
+            Clock.waitForNextCycle(lastCycle);
         }
     }
 

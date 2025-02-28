@@ -1,5 +1,7 @@
 package tasks;
 
+import processors.Processor;
+
 public class Task {
     static int idCounter;
     int id;
@@ -21,9 +23,9 @@ public class Task {
         this.priority = priority;
     }
 
-    public void perform(){
-        System.out.println("performing task:" + this);
+    public void perform(Processor processor){
         decrementDuration();
+        System.out.println(processor + " performing task:" + this);
     }
 
     public void decrementDuration(){
@@ -32,6 +34,10 @@ public class Task {
 
     public int getRemainingDuration(){
         return remainingDuration;
+    }
+
+    public int getCreationTime(){
+        return creationTime;
     }
 
 

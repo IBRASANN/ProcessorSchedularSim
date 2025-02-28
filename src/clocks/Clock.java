@@ -11,7 +11,7 @@ public class Clock {
     static final Lock lock = new ReentrantLock();
     static final Condition cycleChanged = lock.newCondition();
 
-    Clock(int cycleSecondsDuration){
+    public Clock(int cycleSecondsDuration){
         if(cycleSecondsDuration <= 0)
             throw new IllegalArgumentException("error: the clock cycle duration or number of cycles must be greater than zero");
         this.cycleSecondsDuration = cycleSecondsDuration;
@@ -24,8 +24,9 @@ public class Clock {
     public void nextCycle() throws InterruptedException {
         lock.lock();
         try {
-            Thread.sleep(cycleSecondsDuration * 100L);
+            Thread.sleep(cycleSecondsDuration * 1000L);
             cycle.incrementAndGet();
+            System.out.println("**********cycle number " + Clock.getCurrentCycle()+"**********");
             cycleChanged.signalAll();
         } finally {
             lock.unlock();
