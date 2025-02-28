@@ -1,10 +1,10 @@
 package tasks;
 
 public abstract class Task {
-    String id;
-    int creationTime;
-    int remainingDuration;
-    int priority;
+    protected String id;
+    protected int creationTime;
+    protected int remainingDuration;
+    protected int priority;
 
     public abstract void perform(String processor);
     public abstract void decrementDuration();

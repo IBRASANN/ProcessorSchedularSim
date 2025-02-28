@@ -3,8 +3,8 @@ package clocks;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Clock {
-    AtomicInteger cycle = new AtomicInteger(0);
-    int cycleSecondsDuration;
+    protected AtomicInteger cycle = new AtomicInteger(0);
+    protected int cycleSecondsDuration;
 
     public abstract AtomicInteger getCurrentCycle();
     public abstract void nextCycle();

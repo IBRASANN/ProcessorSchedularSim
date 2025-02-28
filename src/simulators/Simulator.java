@@ -9,13 +9,13 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public abstract class Simulator {
-    List<Task> allTasks;
-    List<Processor> processors;
-    Clock clock;
-    Scheduler scheduler;
-    int numberOfProcessors;
-    int numberOfSimulationCycles;
-    String taskFilePath;
+    protected List<Task> allTasks;
+    protected List<Processor> processors;
+    protected Clock clock;
+    protected Scheduler scheduler;
+    protected int numberOfProcessors;
+    protected int numberOfSimulationCycles;
+    protected String taskFilePath;
 
     public abstract void readTasksFromFile() throws FileNotFoundException;
     public abstract void updateCreatedTasks();
