@@ -1,8 +1,8 @@
-import simulators.Simulator;
+import simulators.StandardSimulator;
 
 public class Main {
     public static void main(String[] args){
-        Simulator simulator = new Simulator(4,12);
-        simulator.startSimulation();
+        StandardSimulator standardSimulator = new StandardSimulator(4,12,"src/example2.txt");
+        standardSimulator.startSimulation();
     }
 }

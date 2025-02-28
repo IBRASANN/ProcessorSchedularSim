@@ -4,18 +4,17 @@ import processors.Processor;
 import tasks.Task;
 import tasks.TaskComparator;
 
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
 
-public class Schedular {
+public class StandardScheduler implements Scheduler {
     Queue<Task> readyTasks;
 
-    public Schedular(){
+    public StandardScheduler(){
         readyTasks = new PriorityBlockingQueue<>(1,new TaskComparator());
     }
 
-    public synchronized void addTaskToQueue(Task task){
+    public void addTaskToQueue(Task task){
         readyTasks.add(task);
     }
 
@@ -23,7 +22,7 @@ public class Schedular {
         return !readyTasks.isEmpty();
     }
 
-    public synchronized void printReady(){
+    public void printReady(){
         for(Task task : readyTasks){
             System.out.println("ready task: "+task);
         }
@@ -41,8 +40,8 @@ public class Schedular {
             }
             Task task = readyTasks.poll();
             if (task != null) {
-                processor.setTask(task);
                 System.out.println("Assigned task " + task + " to processor " + processor);
+                processor.setTask(task);
             }
         }
     }

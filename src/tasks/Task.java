@@ -1,41 +1,15 @@
 package tasks;
 
-import processors.Processor;
-
-public class Task {
-    static int idCounter = 1;
+public abstract class Task {
     String id;
     int creationTime;
     int remainingDuration;
     int priority;
 
-    public Task(int creationTime, int duration, int priority){
-        if(priority != 0 && priority != 1)
-            throw new IllegalArgumentException("error: priority must be either 0 or 1");
-
-        id = "T"+idCounter++;
-        this.creationTime = creationTime;
-        this.remainingDuration = duration;
-        this.priority = priority;
-    }
-
-    public void perform(Processor processor){
-        decrementDuration();
-        System.out.println(processor + " performing task:" + this);
-    }
-
-    public void decrementDuration(){
-        if(remainingDuration > 0) --remainingDuration;
-    }
-
-    public int getRemainingDuration(){
-        return remainingDuration;
-    }
-
-    public int getCreationTime(){
-        return creationTime;
-    }
-
+    public abstract void perform(String processor);
+    public abstract void decrementDuration();
+    public abstract int getRemainingDuration();
+    public abstract int getCreationTime();
 
     @Override
     public String toString(){
