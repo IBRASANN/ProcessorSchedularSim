@@ -29,6 +29,14 @@ public class StandardThreadedProcessor extends Processor {
         isRunning = false;
     }
 
+    private void passTime(int millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void run(){
         isRunning = true;
@@ -41,20 +49,12 @@ public class StandardThreadedProcessor extends Processor {
                 task.perform(this.toString());
                 if(task.getRemainingDuration() <= 0)task = null;
             }
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            passTime(600);
             if(wasIdle && !isIdle()){
                 task.perform(this.toString());
                 if(task.getRemainingDuration() <= 0)task = null;
             }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            passTime(100);
             if(!isRunning) break;
             clock.waitForNextCycle(lastCycle);
         }

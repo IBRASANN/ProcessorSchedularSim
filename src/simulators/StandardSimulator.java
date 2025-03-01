@@ -8,7 +8,6 @@ import tasks.StandardTask;
 import tasks.Task;
 
 import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -88,6 +87,14 @@ public class StandardSimulator extends Simulator {
         }
     }
 
+    private void passTime(int millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void startSimulation(){
         System.out.println("**********starting simulation**********");
@@ -101,20 +108,12 @@ public class StandardSimulator extends Simulator {
             clock.nextCycle();
             updateCreatedTasks();
             giveTasksToIdleProcessors();
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            passTime(600);
         }
         for(Processor processor : processors){
             processor.stopProcessor();
         }
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        passTime(100);
         System.out.println("**********end of simulation**********");
     }
 }

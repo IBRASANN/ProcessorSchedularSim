@@ -2,7 +2,7 @@ import simulators.StandardSimulator;
 
 public class Main {
     public static void main(String[] args){
-        StandardSimulator standardSimulator = new StandardSimulator(4,12,"src/example2.txt");
+        StandardSimulator standardSimulator = new StandardSimulator(2,10,"src/example1.txt");
         standardSimulator.startSimulation();
     }
 }
